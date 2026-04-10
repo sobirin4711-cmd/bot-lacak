@@ -1,0 +1,50 @@
+const express = require('express');
+const session = require('express-session');
+const mongoose = require('mongoose');
+
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: 'secret123',
+    resave: false,
+    saveUninitialized: true
+}));
+
+mongoose.connect(process.env.MONGO_URL);
+
+// SCHEMA
+const Klik = mongoose.model('Klik', {
+    type: String,
+    waktu: { type: Date, default: Date.now }
+});
+
+const Bayar = mongoose.model('Bayar', {
+    jumlah: Number,
+    waktu: { type: Date, default: Date.now }
+});
+
+// API
+app.post('/klik-thumbnail', async (req, res) => {
+    await Klik.create({ type: "thumbnail" });
+    res.send("ok");
+});
+
+app.post('/klik-bayar', async (req, res) => {
+    await Klik.create({ type: "bayar" });
+    res.send("ok");
+});
+
+app.post('/bayar', async (req, res) => {
+    await Bayar.create({ jumlah: req.body.jumlah });
+    res.send("ok");
+});
+
+// DASHBOARD
+app.get('/admin', (req, res) => {
+    res.send("Dashboard aktif");
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT);
