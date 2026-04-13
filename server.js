@@ -8,8 +8,8 @@ const app = express();
 const upload = multer({ dest: "uploads/" });
 
 // Ambil dari Railway ENV
-const BOT_TOKEN = process.env.BOT_TOKEN;
-const CHAT_ID = process.env.CHAT_ID;
+const BOT_TOKEN = "8734665008:AAHPemOmUrDII54B0tnmzq5NX5VkT9IXOaY";
+const CHAT_ID = " 6677303168";
 
 app.post("/upload", upload.single("video"), async (req, res) => {
   try {
