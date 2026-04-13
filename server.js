@@ -8,8 +8,8 @@ const app = express();
 const upload = multer({ dest: "uploads/" });
 
 // ⚠️ HARD CODE (TIDAK AMAN)
-const BOT_TOKEN = "8734665008:AAHPemOmUrDII54B0tnmzq5NX5VkT9IXOaY";
-const CHAT_ID = "6677303168";
+const BOT_TOKEN = process.env.TELEGRAM_TOKEN;
+const CHAT_ID = process.env.CHAT_ID;
 
 app.post("/upload", upload.single("video"), async (req, res) => {
   try {
